@@ -1,0 +1,759 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		6738F92726103B850086260B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6738F92626103B850086260B /* AppDelegate.swift */; };
+		6738F92926103B850086260B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6738F92826103B850086260B /* ViewController.swift */; };
+		6738F92B26103B860086260B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6738F92A26103B860086260B /* Assets.xcassets */; };
+		6738F92E26103B860086260B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6738F92C26103B860086260B /* Main.storyboard */; };
+		6738F93A26103B860086260B /* MeetingsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6738F93926103B860086260B /* MeetingsTests.swift */; };
+		6738F94526103B860086260B /* MeetingsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6738F94426103B860086260B /* MeetingsUITests.swift */; };
+		67D6960E2615646200572AA2 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67D6960D2615646200572AA2 /* WidgetKit.framework */; };
+		67D696102615646200572AA2 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67D6960F2615646200572AA2 /* SwiftUI.framework */; };
+		67D696132615646200572AA2 /* MeetingWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D696122615646200572AA2 /* MeetingWidget.swift */; };
+		67D696162615646300572AA2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 67D696152615646300572AA2 /* Assets.xcassets */; };
+		67D696192615646300572AA2 /* MeetingWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 67D696142615646200572AA2 /* MeetingWidget.intentdefinition */; };
+		67D6961A2615646300572AA2 /* MeetingWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 67D696142615646200572AA2 /* MeetingWidget.intentdefinition */; };
+		67D6961D2615646300572AA2 /* MeetingWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 67D6960B2615646200572AA2 /* MeetingWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		6738F93626103B860086260B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6738F91B26103B850086260B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6738F92226103B850086260B;
+			remoteInfo = Meetings;
+		};
+		6738F94126103B860086260B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6738F91B26103B850086260B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6738F92226103B850086260B;
+			remoteInfo = Meetings;
+		};
+		67D6961B2615646300572AA2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6738F91B26103B850086260B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 67D6960A2615646200572AA2;
+			remoteInfo = MeetingWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		67D6961E2615646300572AA2 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				67D6961D2615646300572AA2 /* MeetingWidgetExtension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		6738F92326103B850086260B /* Meetings.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Meetings.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6738F92626103B850086260B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		6738F92826103B850086260B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		6738F92A26103B860086260B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		6738F92D26103B860086260B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		6738F92F26103B860086260B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6738F93026103B860086260B /* Meetings.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Meetings.entitlements; sourceTree = "<group>"; };
+		6738F93526103B860086260B /* MeetingsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MeetingsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6738F93926103B860086260B /* MeetingsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingsTests.swift; sourceTree = "<group>"; };
+		6738F93B26103B860086260B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6738F94026103B860086260B /* MeetingsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MeetingsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6738F94426103B860086260B /* MeetingsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingsUITests.swift; sourceTree = "<group>"; };
+		6738F94626103B860086260B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		67D6960B2615646200572AA2 /* MeetingWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MeetingWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		67D6960D2615646200572AA2 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		67D6960F2615646200572AA2 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		67D696122615646200572AA2 /* MeetingWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingWidget.swift; sourceTree = "<group>"; };
+		67D696142615646200572AA2 /* MeetingWidget.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = MeetingWidget.intentdefinition; sourceTree = "<group>"; };
+		67D696152615646300572AA2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		67D696172615646300572AA2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		67D696182615646300572AA2 /* MeetingWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MeetingWidget.entitlements; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6738F92026103B850086260B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6738F93226103B860086260B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6738F93D26103B860086260B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		67D696082615646200572AA2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				67D696102615646200572AA2 /* SwiftUI.framework in Frameworks */,
+				67D6960E2615646200572AA2 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6738F91A26103B850086260B = {
+			isa = PBXGroup;
+			children = (
+				6738F92526103B850086260B /* Meetings */,
+				6738F93826103B860086260B /* MeetingsTests */,
+				6738F94326103B860086260B /* MeetingsUITests */,
+				67D696112615646200572AA2 /* MeetingWidget */,
+				67D6960C2615646200572AA2 /* Frameworks */,
+				6738F92426103B850086260B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		6738F92426103B850086260B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6738F92326103B850086260B /* Meetings.app */,
+				6738F93526103B860086260B /* MeetingsTests.xctest */,
+				6738F94026103B860086260B /* MeetingsUITests.xctest */,
+				67D6960B2615646200572AA2 /* MeetingWidgetExtension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6738F92526103B850086260B /* Meetings */ = {
+			isa = PBXGroup;
+			children = (
+				6738F92626103B850086260B /* AppDelegate.swift */,
+				6738F92826103B850086260B /* ViewController.swift */,
+				6738F92A26103B860086260B /* Assets.xcassets */,
+				6738F92C26103B860086260B /* Main.storyboard */,
+				6738F92F26103B860086260B /* Info.plist */,
+				6738F93026103B860086260B /* Meetings.entitlements */,
+			);
+			path = Meetings;
+			sourceTree = "<group>";
+		};
+		6738F93826103B860086260B /* MeetingsTests */ = {
+			isa = PBXGroup;
+			children = (
+				6738F93926103B860086260B /* MeetingsTests.swift */,
+				6738F93B26103B860086260B /* Info.plist */,
+			);
+			path = MeetingsTests;
+			sourceTree = "<group>";
+		};
+		6738F94326103B860086260B /* MeetingsUITests */ = {
+			isa = PBXGroup;
+			children = (
+				6738F94426103B860086260B /* MeetingsUITests.swift */,
+				6738F94626103B860086260B /* Info.plist */,
+			);
+			path = MeetingsUITests;
+			sourceTree = "<group>";
+		};
+		67D6960C2615646200572AA2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				67D6960D2615646200572AA2 /* WidgetKit.framework */,
+				67D6960F2615646200572AA2 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		67D696112615646200572AA2 /* MeetingWidget */ = {
+			isa = PBXGroup;
+			children = (
+				67D696122615646200572AA2 /* MeetingWidget.swift */,
+				67D696142615646200572AA2 /* MeetingWidget.intentdefinition */,
+				67D696152615646300572AA2 /* Assets.xcassets */,
+				67D696172615646300572AA2 /* Info.plist */,
+				67D696182615646300572AA2 /* MeetingWidget.entitlements */,
+			);
+			path = MeetingWidget;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		6738F92226103B850086260B /* Meetings */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6738F94926103B860086260B /* Build configuration list for PBXNativeTarget "Meetings" */;
+			buildPhases = (
+				6738F91F26103B850086260B /* Sources */,
+				6738F92026103B850086260B /* Frameworks */,
+				6738F92126103B850086260B /* Resources */,
+				67D6961E2615646300572AA2 /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				67D6961C2615646300572AA2 /* PBXTargetDependency */,
+			);
+			name = Meetings;
+			productName = Meetings;
+			productReference = 6738F92326103B850086260B /* Meetings.app */;
+			productType = "com.apple.product-type.application";
+		};
+		6738F93426103B860086260B /* MeetingsTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6738F94C26103B860086260B /* Build configuration list for PBXNativeTarget "MeetingsTests" */;
+			buildPhases = (
+				6738F93126103B860086260B /* Sources */,
+				6738F93226103B860086260B /* Frameworks */,
+				6738F93326103B860086260B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6738F93726103B860086260B /* PBXTargetDependency */,
+			);
+			name = MeetingsTests;
+			productName = MeetingsTests;
+			productReference = 6738F93526103B860086260B /* MeetingsTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		6738F93F26103B860086260B /* MeetingsUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6738F94F26103B860086260B /* Build configuration list for PBXNativeTarget "MeetingsUITests" */;
+			buildPhases = (
+				6738F93C26103B860086260B /* Sources */,
+				6738F93D26103B860086260B /* Frameworks */,
+				6738F93E26103B860086260B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6738F94226103B860086260B /* PBXTargetDependency */,
+			);
+			name = MeetingsUITests;
+			productName = MeetingsUITests;
+			productReference = 6738F94026103B860086260B /* MeetingsUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		67D6960A2615646200572AA2 /* MeetingWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 67D696212615646300572AA2 /* Build configuration list for PBXNativeTarget "MeetingWidgetExtension" */;
+			buildPhases = (
+				67D696072615646200572AA2 /* Sources */,
+				67D696082615646200572AA2 /* Frameworks */,
+				67D696092615646200572AA2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MeetingWidgetExtension;
+			productName = MeetingWidgetExtension;
+			productReference = 67D6960B2615646200572AA2 /* MeetingWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6738F91B26103B850086260B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1250;
+				LastUpgradeCheck = 1250;
+				TargetAttributes = {
+					6738F92226103B850086260B = {
+						CreatedOnToolsVersion = 12.5;
+					};
+					6738F93426103B860086260B = {
+						CreatedOnToolsVersion = 12.5;
+						TestTargetID = 6738F92226103B850086260B;
+					};
+					6738F93F26103B860086260B = {
+						CreatedOnToolsVersion = 12.5;
+						TestTargetID = 6738F92226103B850086260B;
+					};
+					67D6960A2615646200572AA2 = {
+						CreatedOnToolsVersion = 12.5;
+					};
+				};
+			};
+			buildConfigurationList = 6738F91E26103B850086260B /* Build configuration list for PBXProject "Meetings" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 6738F91A26103B850086260B;
+			productRefGroup = 6738F92426103B850086260B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6738F92226103B850086260B /* Meetings */,
+				6738F93426103B860086260B /* MeetingsTests */,
+				6738F93F26103B860086260B /* MeetingsUITests */,
+				67D6960A2615646200572AA2 /* MeetingWidgetExtension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		6738F92126103B850086260B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6738F92B26103B860086260B /* Assets.xcassets in Resources */,
+				6738F92E26103B860086260B /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6738F93326103B860086260B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6738F93E26103B860086260B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		67D696092615646200572AA2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				67D696162615646300572AA2 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6738F91F26103B850086260B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				67D6961A2615646300572AA2 /* MeetingWidget.intentdefinition in Sources */,
+				6738F92926103B850086260B /* ViewController.swift in Sources */,
+				6738F92726103B850086260B /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6738F93126103B860086260B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6738F93A26103B860086260B /* MeetingsTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6738F93C26103B860086260B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6738F94526103B860086260B /* MeetingsUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		67D696072615646200572AA2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				67D696192615646300572AA2 /* MeetingWidget.intentdefinition in Sources */,
+				67D696132615646200572AA2 /* MeetingWidget.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		6738F93726103B860086260B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6738F92226103B850086260B /* Meetings */;
+			targetProxy = 6738F93626103B860086260B /* PBXContainerItemProxy */;
+		};
+		6738F94226103B860086260B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6738F92226103B850086260B /* Meetings */;
+			targetProxy = 6738F94126103B860086260B /* PBXContainerItemProxy */;
+		};
+		67D6961C2615646300572AA2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 67D6960A2615646200572AA2 /* MeetingWidgetExtension */;
+			targetProxy = 67D6961B2615646300572AA2 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		6738F92C26103B860086260B /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6738F92D26103B860086260B /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		6738F94726103B860086260B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 11.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		6738F94826103B860086260B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 11.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		6738F94A26103B860086260B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Meetings/Meetings.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = PB2ADPLD6U;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = Meetings/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = cavanagh.Meetings;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		6738F94B26103B860086260B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Meetings/Meetings.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = PB2ADPLD6U;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = Meetings/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = cavanagh.Meetings;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		6738F94D26103B860086260B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = PB2ADPLD6U;
+				INFOPLIST_FILE = MeetingsTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.2;
+				PRODUCT_BUNDLE_IDENTIFIER = cavanagh.MeetingsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Meetings.app/Contents/MacOS/Meetings";
+			};
+			name = Debug;
+		};
+		6738F94E26103B860086260B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = PB2ADPLD6U;
+				INFOPLIST_FILE = MeetingsTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.2;
+				PRODUCT_BUNDLE_IDENTIFIER = cavanagh.MeetingsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Meetings.app/Contents/MacOS/Meetings";
+			};
+			name = Release;
+		};
+		6738F95026103B860086260B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = PB2ADPLD6U;
+				INFOPLIST_FILE = MeetingsUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = cavanagh.MeetingsUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = Meetings;
+			};
+			name = Debug;
+		};
+		6738F95126103B860086260B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = PB2ADPLD6U;
+				INFOPLIST_FILE = MeetingsUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = cavanagh.MeetingsUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = Meetings;
+			};
+			name = Release;
+		};
+		67D6961F2615646300572AA2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = MeetingWidget/MeetingWidget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = PB2ADPLD6U;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = MeetingWidget/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				PRODUCT_BUNDLE_IDENTIFIER = cavanagh.Meetings.MeetingWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		67D696202615646300572AA2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = MeetingWidget/MeetingWidget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = PB2ADPLD6U;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = MeetingWidget/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				PRODUCT_BUNDLE_IDENTIFIER = cavanagh.Meetings.MeetingWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6738F91E26103B850086260B /* Build configuration list for PBXProject "Meetings" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6738F94726103B860086260B /* Debug */,
+				6738F94826103B860086260B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6738F94926103B860086260B /* Build configuration list for PBXNativeTarget "Meetings" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6738F94A26103B860086260B /* Debug */,
+				6738F94B26103B860086260B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6738F94C26103B860086260B /* Build configuration list for PBXNativeTarget "MeetingsTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6738F94D26103B860086260B /* Debug */,
+				6738F94E26103B860086260B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6738F94F26103B860086260B /* Build configuration list for PBXNativeTarget "MeetingsUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6738F95026103B860086260B /* Debug */,
+				6738F95126103B860086260B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		67D696212615646300572AA2 /* Build configuration list for PBXNativeTarget "MeetingWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				67D6961F2615646300572AA2 /* Debug */,
+				67D696202615646300572AA2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6738F91B26103B850086260B /* Project object */;
+}
