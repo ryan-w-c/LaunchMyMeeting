@@ -16,13 +16,15 @@ class ViewController: NSViewController {
     
     var secondTimer = Timer()
     var refreshTimer = Timer()
-    
-    var refreshTime = 5.0 * 60.0
+    var updateTimer = Timer()
+    var updateTimerBool = false
+
+    var refreshTime = 15.0 * 60.0
     
     let eventStore = EKEventStore()
         
-    var allDayBool = true
-    var includeEmptyCategories = true
+    var allDayBool = false
+    var includeEmptyCategories = false
     var terminator = true
     
     var total = 0.0
@@ -48,19 +50,19 @@ class ViewController: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        forceRefresh()
+//        forceRefresh()
         day.font = NSFont(name: "Helvetica Neue", size: CGFloat(23.0))!
         date.font = NSFont(name: "Helvetica Neue", size: CGFloat(30.0))!
         time.font = NSFont(name: "Helvetica Neue", size: CGFloat(23.0))!
-        secondTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector:#selector(self.tick) , userInfo: nil, repeats: true)
-        refreshTimer = Timer.scheduledTimer(timeInterval: refreshTime, target: self, selector:#selector(self.forceRefresh) , userInfo: nil, repeats: true)
+        secondTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector:#selector(self.tick), userInfo: nil, repeats: true)
+        refreshTimer = Timer.scheduledTimer(timeInterval: refreshTime, target: self, selector:#selector(self.forceRefresh), userInfo: nil, repeats: true)
 
         eventStore.requestAccess(to: .event) { (granted, error) in
             print(granted)
         }
         
         updateDate()
-        updateEvents()
+        refresh()
         NotificationCenter.default.addObserver(self, selector: #selector(refresh), name: .EKEventStoreChanged, object: eventStore)
     }
     
@@ -78,13 +80,25 @@ class ViewController: NSViewController {
         }
     }
     
+    @IBAction func refreshButtonPress(_ sender: Any) {
+        forceRefresh()
+    }
+    
     @objc func forceRefresh() {
+        updateTimer.invalidate()
         let store = EKEventStore()
         store.refreshSourcesIfNecessary()
+        print("refreshed")
+        refreshTimer.invalidate()
+        refreshTimer = Timer.scheduledTimer(timeInterval: refreshTime, target: self, selector:#selector(self.forceRefresh) , userInfo: nil, repeats: true)
     }
     
     @objc func refresh() {
-        if events != fetchEvents() {
+        updateTimer.invalidate()
+        let newEvents = fetchEvents()
+        if events != newEvents {
+            events = newEvents
+            updateTimerBool = false
             updateEvents()
         }
     }
@@ -170,23 +184,76 @@ class ViewController: NSViewController {
         return eventStore.events(matching: predicate)
     }
     
+    func fetchWidgetEvents() -> [EKEvent] {
+        let predicate = eventStore.predicateForEvents(withStart: Date(), end: Date().startOfNextDay, calendars: nil)
+        return eventStore.events(matching: predicate)
+    }
+    
+    @objc func updateTimerFinish() {
+        updateTimerBool = false
+        updateDate()
+        updateEvents()
+    }
+    
+    func startUpdateTimer(endTime: Date) {
+        updateTimer.invalidate()
+        print(findSecDiff(endTime: endTime))
+        updateTimer = Timer.scheduledTimer(timeInterval: (Double(findSecDiff(endTime: endTime)) + 2.0), target: self, selector: #selector(self.updateTimerFinish), userInfo: nil, repeats: false)
+    }
+    
+    func findSecDiff(endTime: Date) -> Int {
+        return Calendar.current.dateComponents([.second], from: Date(), to: endTime).second!
+    }
+    
+    func findMinDiff(endTime: Date) -> Int {
+        return Calendar.current.dateComponents([.minute], from: Date(), to: endTime).minute!
+    }
+    
+    func widgetTime(events: [EKEvent]) -> [Int] {
+        var widgetRefresh = [Int]()
+        for event in events {
+            if !event.isAllDay {
+                if event.startDate > Date() {
+                    widgetRefresh.append(findSecDiff(endTime: event.startDate))
+                }
+                widgetRefresh.append(findSecDiff(endTime: event.endDate))
+            }
+        }
+        return widgetRefresh
+    }
+    
     func updateEvents() {
-        events = fetchEvents()
-        
         var nextInitialized = false
         var nextEvent = Date()
+        var currentEventTime = Date()
         for event in events {
+            //removes events not today or tomorrow
             if (event.startDate < Date().startOfToday && event.endDate <= Date().startOfToday) || (event.startDate >= Date().startOfNextDay.startOfNextDay) {
                 continue
             }
-            if event.isAllDay && allDayBool && event.startDate <= Date() {
-                allDay.append(event)
+            //sorts into correct arrays
+            if event.isAllDay && event.startDate <= Date() {
+                if allDayBool {
+                    allDay.append(event)
+                }
             }
             else if event.startDate < Date() && event.endDate < Date() {
                 past.append(event)
             }
             else if event.startDate < Date() && event.endDate > Date() {
                 current.append(event)
+                if !updateTimerBool {
+                    currentEventTime = event.endDate
+                    startUpdateTimer(endTime: event.endDate)
+                    updateTimerBool = true
+                }
+                else {
+                    let newTime = findSecDiff(endTime: event.endDate)
+                    if newTime < findSecDiff(endTime: currentEventTime) {
+                        currentEventTime = event.endDate
+                        startUpdateTimer(endTime: event.endDate)
+                    }
+                }
             }
             else if event.startDate >= Date().startOfNextDay {
                 if (event.isAllDay && allDayBool) || !event.isAllDay {
@@ -206,10 +273,122 @@ class ViewController: NSViewController {
                     nextInitialized = true
                     nextEvent = event.startDate
                     next.append(event)
+                    if !updateTimerBool {
+                        currentEventTime = event.startDate
+                        startUpdateTimer(endTime: event.startDate)
+                        updateTimerBool = true
+                    }
                 }
             }
         }
-        
+        if !updateTimerBool || findSecDiff(endTime: currentEventTime) > findSecDiff(endTime: Date().startOfNextDay){
+            startUpdateTimer(endTime: Date().startOfNextDay)
+            updateTimerBool = true
+        }
+        if current.isEmpty && next.isEmpty && upcoming.isEmpty && tomorrow.isEmpty && !includeEmptyCategories {
+            if allDay.isEmpty && past.isEmpty {
+                currentLength = 77.0 + 40.0
+                let documentView = NSView(frame: NSRect(x:0,y:100,width:460,height: 598))
+                let tempEvent = NSBox(frame: NSRect(x: atAbsoluteCenter, y: Int(598 - currentLength), width:455, height:Int(currentLength)))
+                tempEvent.title = "\n"
+                tempEvent.titleFont = NSFont(name: "Helvetica Neue", size: CGFloat(20.0))!
+                tempEvent.borderType = NSBorderType.noBorder
+                let text = NSTextField(frame: NSRect(x: atAbsoluteCenter, y: -20, width:430, height:65 ))
+                text.stringValue = "No events for today and tomorrow."
+                text.isEditable = false
+                text.font = NSFont(name: "Helvetica Neue", size: CGFloat(15.0))!
+                text.isSelectable = false
+                text.isBordered = false
+                text.alignment = NSTextAlignment.center
+                text.drawsBackground = false
+                tempEvent.addSubview(text)
+                documentView.addSubview(tempEvent)
+                dayView.documentView = documentView
+            }
+            else {
+                pastAndDay()
+                currentLength = 77.0 + 40.0
+                adjust = 598.0
+                let documentView = NSView(frame: NSRect(x:0,y:100,width:460,height:Int(total + adjust)))
+                total += currentLength
+
+                var newLength = 0.0
+                if pastLength > 0 {
+                    addCategories(title: "Past", array: past, length: pastLength, total: total - currentLength, newLength: newLength, doc: documentView)
+                    newLength += pastLength
+                }
+                if allDayLength > 0 {
+                    addCategories(title: "All Day", array: allDay, length: allDayLength, total: total - currentLength, newLength: newLength, doc: documentView)
+                    newLength += allDayLength
+                }
+//                addCategories(title: "Current", array: current, length: currentLength, total: total - currentLength, newLength: newLength, doc: documentView)
+                let tempEvent = NSBox(frame: NSRect(x: atAbsoluteCenter, y: Int(total - currentLength + adjust - currentLength - newLength), width:455, height:Int(currentLength) ))
+                tempEvent.title = "\n"
+                tempEvent.titleFont = NSFont(name: "Helvetica Neue", size: CGFloat(20.0))!
+                tempEvent.borderType = NSBorderType.noBorder
+                let text = NSTextField(frame: NSRect(x: atAbsoluteCenter, y: -20, width:430, height:65 ))
+                text.stringValue = "No events for the rest of today and tomorrow."
+                text.isEditable = false
+                text.font = NSFont(name: "Helvetica Neue", size: CGFloat(15.0))!
+                text.isSelectable = false
+                text.isBordered = false
+                text.alignment = NSTextAlignment.center
+                text.drawsBackground = false
+                tempEvent.addSubview(text)
+                documentView.addSubview(tempEvent)
+                dayView.documentView = documentView
+            }
+        }
+        else {
+            pastAndDay()
+            findLengths(array: current, length: &currentLength)
+            findLengths(array: next, length: &nextLength)
+            findLengths(array: upcoming, length: &upcomingLength)
+            findLengths(array: tomorrow, length: &tomorrowLength)
+            
+            adjust = 598.0 - (currentLength + nextLength + upcomingLength + tomorrowLength)
+            if adjust < 0.0 {
+                adjust = 0.0
+            }
+            let documentView = NSView(frame: NSRect(x:0,y:100,width:460,height:Int(total + adjust)))
+            var newLength = 0.0
+            if pastLength > 0 {
+                addCategories(title: "Past", array: past, length: pastLength, total: total, newLength: newLength, doc: documentView)
+                newLength += pastLength
+            }
+            if allDayLength > 0 {
+                addCategories(title: "All Day", array: allDay, length: allDayLength, total: total, newLength: newLength, doc: documentView)
+                newLength += allDayLength
+            }
+            if currentLength > 0 {
+                addCategories(title: "Current", array: current, length: currentLength, total: total, newLength: newLength, doc: documentView)
+                newLength += currentLength
+            }
+            if nextLength > 0 {
+                addCategories(title: "Next Up", array: next, length: nextLength, total: total, newLength: newLength, doc: documentView)
+                newLength += nextLength
+            }
+            if upcomingLength > 0 {
+                addCategories(title: "Upcoming", array: upcoming, length: upcomingLength, total: total, newLength: newLength, doc: documentView)
+                newLength += upcomingLength
+            }
+            if tomorrowLength > 0 {
+                addCategories(title: "Tomorrow", array: tomorrow, length: tomorrowLength, total: total, newLength: newLength, doc: documentView)
+                newLength += tomorrowLength
+            }
+            dayView.documentView = documentView
+//            dayView.documentView?.scroll(CGPoint(x: 0, y: (currentLength + nextLength + upcomingLength + tomorrowLength) - 598))
+        }
+        dayView.documentView?.scroll(CGPoint(x: 0, y: (currentLength + nextLength + upcomingLength + tomorrowLength) - 598))
+        past = []
+        allDay = []
+        current = []
+        next = []
+        upcoming = []
+        tomorrow = []
+    }
+    
+    func pastAndDay() {
         allDayLength = 0.0
         total = 0.0
         if allDayBool && (!allDay.isEmpty || includeEmptyCategories) {
@@ -223,51 +402,6 @@ class ViewController: NSViewController {
             total += allDayLength
         }
         findLengths(array: past, length: &pastLength)
-        findLengths(array: current, length: &currentLength)
-        findLengths(array: next, length: &nextLength)
-        findLengths(array: upcoming, length: &upcomingLength)
-        findLengths(array: tomorrow, length: &tomorrowLength)
-        
-        adjust = 598.0 - (currentLength + nextLength + upcomingLength + tomorrowLength)
-        if adjust < 0.0 {
-            adjust = 0.0
-        }
-        print(adjust)
-        let documentView = NSView(frame: NSRect(x:0,y:100,width:460,height:Int(total + adjust)))
-        var newLength = 0.0
-        if pastLength > 0 {
-            addCategories(title: "Past", array: past, length: pastLength, total: total, newLength: newLength, doc: documentView)
-            newLength += pastLength
-        }
-        if allDayLength > 0 {
-            addCategories(title: "All Day", array: allDay, length: allDayLength, total: total, newLength: newLength, doc: documentView)
-            newLength += allDayLength
-        }
-        if currentLength > 0 {
-            addCategories(title: "Current", array: current, length: currentLength, total: total, newLength: newLength, doc: documentView)
-            newLength += currentLength
-        }
-        if nextLength > 0 {
-            addCategories(title: "Next Up", array: next, length: nextLength, total: total, newLength: newLength, doc: documentView)
-            newLength += nextLength
-        }
-        if upcomingLength > 0 {
-            addCategories(title: "Upcoming", array: upcoming, length: upcomingLength, total: total, newLength: newLength, doc: documentView)
-            newLength += upcomingLength
-        }
-        if tomorrowLength > 0 {
-            addCategories(title: "Tomorrow", array: tomorrow, length: tomorrowLength, total: total, newLength: newLength, doc: documentView)
-            newLength += tomorrowLength
-        }
-        dayView.documentView = documentView
-        dayView.documentView?.scroll(CGPoint(x: 0, y: (currentLength + nextLength + upcomingLength + tomorrowLength) - 598))
-        
-        past = []
-        allDay = []
-        current = []
-        next = []
-        upcoming = []
-        tomorrow = []
     }
     
     @objc func buttonPress(_ sender: RoundedColoredButton) {

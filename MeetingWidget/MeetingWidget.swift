@@ -2,34 +2,43 @@
 //  MeetingWidget.swift
 //  MeetingWidget
 //
-//  Created by Ryan Cavanagh on 3/31/21.
+//  Created by Ryan Cavanagh on 4/1/21.
 //
 
 import WidgetKit
 import SwiftUI
-import Intents
+import EventKit
 
-struct Provider: IntentTimelineProvider {
+var widgetInstance = CalEventView()
+
+struct Provider: TimelineProvider {
+    func updateWidget() {
+        widgetInstance = CalEventView()
+    }
+    
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), configuration: ConfigurationIntent())
+        updateWidget()
+        return SimpleEntry(date: Date())
     }
 
-    func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: Date(), configuration: configuration)
+    func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
+        let entry = SimpleEntry(date: Date())
         completion(entry)
     }
 
-    func getTimeline(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
+    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
         var entries: [SimpleEntry] = []
-
+        
+//        let events = WidgetFunctions().fetchWidgetEvents()
+//        let refreshTime = WidgetFunctions().widgetTime(events: events)
         // Generate a timeline consisting of five entries an hour apart, starting from the current date.
         let currentDate = Date()
-        for hourOffset in 0 ..< 5 {
-            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate, configuration: configuration)
+        for min in [0,1,2,3,4,5] {
+            let entryDate = Calendar.current.date(byAdding: .minute, value: min, to: currentDate)!
+            let entry = SimpleEntry(date: entryDate)
             entries.append(entry)
         }
-
+        
         let timeline = Timeline(entries: entries, policy: .atEnd)
         completion(timeline)
     }
@@ -37,14 +46,13 @@ struct Provider: IntentTimelineProvider {
 
 struct SimpleEntry: TimelineEntry {
     let date: Date
-    let configuration: ConfigurationIntent
+//    let calEvent: [CalendarEvent] = WidgetFunctions().createCalendarEvents()
 }
 
 struct MeetingWidgetEntryView : View {
     var entry: Provider.Entry
-
     var body: some View {
-        Text(entry.date, style: .time)
+        widgetInstance
     }
 }
 
@@ -53,17 +61,24 @@ struct MeetingWidget: Widget {
     let kind: String = "MeetingWidget"
 
     var body: some WidgetConfiguration {
-        IntentConfiguration(kind: kind, intent: ConfigurationIntent.self, provider: Provider()) { entry in
-            MeetingWidgetEntryView(entry: entry)
+        StaticConfiguration(kind: "UpNext", provider: Provider()) { entry in
+            MeetingWidgetEntryView(entry: entry).frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(LinearGradient(gradient: Gradient(colors: [Color(red: 0.4588, green: 0.0980, blue: 0.0980), Color(red: 0.7137, green: 0.0039, blue: 0.0039)]), startPoint: .leading, endPoint: .trailing))
+                .widgetURL(URL(string: "launch-meeting://widget/\( widgetInstance.returnUrl())"))
         }
-        .configurationDisplayName("My Widget")
-        .description("This is an example widget.")
+        .configurationDisplayName("Up Next")
+        .description("This shows your newest event.")
+        
     }
 }
 
 struct MeetingWidget_Previews: PreviewProvider {
     static var previews: some View {
-        MeetingWidgetEntryView(entry: SimpleEntry(date: Date(), configuration: ConfigurationIntent()))
-            .previewContext(WidgetPreviewContext(family: .systemSmall))
+        Group {
+            CalEventView()
+                .previewContext(WidgetPreviewContext(family: .systemSmall))
+//                .widgetURL(URL(string: "www.google.com"))
+        }
+        
     }
 }
