@@ -67,6 +67,24 @@ class ViewController: NSViewController {
         updateDate()
         refresh()
         NotificationCenter.default.addObserver(self, selector: #selector(refresh), name: .EKEventStoreChanged, object: eventStore)
+        
+        UserDefaults.standard.addObserver(self, forKeyPath: "allDay", options: NSKeyValueObservingOptions.new, context: nil)
+        UserDefaults.standard.addObserver(self, forKeyPath: "emptyCat", options: NSKeyValueObservingOptions.new, context: nil)
+        UserDefaults.standard.addObserver(self, forKeyPath: "terminate", options: NSKeyValueObservingOptions.new, context: nil)
+    }
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        print("Refresher from obs")
+        allDayBool = UserDefaults.standard.bool(forKey: "allDay")
+        includeEmptyCategories = UserDefaults.standard.bool(forKey: "emptyCat")
+        terminator = UserDefaults.standard.bool(forKey: "terminate")
+        print("terminate")
+        print(terminator)
+        print("allday:")
+        print(allDayBool)
+        print("cat")
+        print(includeEmptyCategories)
+        settingsRefresh()
     }
     
     func findLengths(array: [EKEvent], length: inout Double){
@@ -118,6 +136,14 @@ class ViewController: NSViewController {
             updateTimerBool = false
             updateEvents()
         }
+    }
+    
+    func settingsRefresh() {
+        updateTimer.invalidate()
+        let newEvents = fetchEvents()
+        events = newEvents
+        updateTimerBool = false
+        updateEvents()
     }
     
     func addCategories(title: String, array: [EKEvent], length: Double, total: Double, newLength: Double, doc: NSView, colorCode: Int) {
