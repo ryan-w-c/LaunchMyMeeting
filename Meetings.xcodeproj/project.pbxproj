@@ -16,6 +16,9 @@
 		670AB8B026193B770042C71F /* CalendarEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670AB8AE26193B770042C71F /* CalendarEvent.swift */; };
 		670AB8B226193D3B0042C71F /* WidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670AB8B126193D3B0042C71F /* WidgetView.swift */; };
 		670AB8B326193D3B0042C71F /* WidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670AB8B126193D3B0042C71F /* WidgetView.swift */; };
+		672E68A5261AB3AE00FCA717 /* Preferences.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 672E68A4261AB3AE00FCA717 /* Preferences.storyboard */; };
+		672E68AB261ABED500FCA717 /* PreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672E68AA261ABED500FCA717 /* PreferencesViewController.swift */; };
+		672E68AC261AC05E00FCA717 /* PreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672E68AA261ABED500FCA717 /* PreferencesViewController.swift */; };
 		6738F92726103B850086260B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6738F92626103B850086260B /* AppDelegate.swift */; };
 		6738F92926103B850086260B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6738F92826103B850086260B /* ViewController.swift */; };
 		6738F92B26103B860086260B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6738F92A26103B860086260B /* Assets.xcassets */; };
@@ -71,6 +74,8 @@
 		670887742616D1A40059DC81 /* MeetingWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MeetingWidget.entitlements; sourceTree = "<group>"; };
 		670AB8AE26193B770042C71F /* CalendarEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarEvent.swift; sourceTree = "<group>"; };
 		670AB8B126193D3B0042C71F /* WidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetView.swift; sourceTree = "<group>"; };
+		672E68A4261AB3AE00FCA717 /* Preferences.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Preferences.storyboard; sourceTree = "<group>"; };
+		672E68AA261ABED500FCA717 /* PreferencesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesViewController.swift; sourceTree = "<group>"; };
 		6738F92326103B850086260B /* Meetings.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Meetings.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6738F92626103B850086260B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6738F92826103B850086260B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -165,8 +170,10 @@
 				6738F92826103B850086260B /* ViewController.swift */,
 				6738F92A26103B860086260B /* Assets.xcassets */,
 				6738F92C26103B860086260B /* Main.storyboard */,
+				672E68A4261AB3AE00FCA717 /* Preferences.storyboard */,
 				6738F92F26103B860086260B /* Info.plist */,
 				6738F93026103B860086260B /* Meetings.entitlements */,
+				672E68AA261ABED500FCA717 /* PreferencesViewController.swift */,
 			);
 			path = Meetings;
 			sourceTree = "<group>";
@@ -332,6 +339,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				672E68A5261AB3AE00FCA717 /* Preferences.storyboard in Resources */,
 				6738F92B26103B860086260B /* Assets.xcassets in Resources */,
 				6738F92E26103B860086260B /* Main.storyboard in Resources */,
 			);
@@ -358,6 +366,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				672E68AC261AC05E00FCA717 /* PreferencesViewController.swift in Sources */,
 				670AB8AD261934450042C71F /* ViewController.swift in Sources */,
 				670AB8B026193B770042C71F /* CalendarEvent.swift in Sources */,
 				670AB8B326193D3B0042C71F /* WidgetView.swift in Sources */,
@@ -373,6 +382,7 @@
 				670AB8AF26193B770042C71F /* CalendarEvent.swift in Sources */,
 				670AB8B226193D3B0042C71F /* WidgetView.swift in Sources */,
 				6738F92726103B850086260B /* AppDelegate.swift in Sources */,
+				672E68AB261ABED500FCA717 /* PreferencesViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -430,7 +440,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = MeetingWidget/MeetingWidget.entitlements;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = PB2ADPLD6U;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -454,7 +464,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = MeetingWidget/MeetingWidget.entitlements;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = PB2ADPLD6U;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -594,7 +604,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Meetings/Meetings.entitlements;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = PB2ADPLD6U;
@@ -617,7 +627,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Meetings/Meetings.entitlements;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = PB2ADPLD6U;

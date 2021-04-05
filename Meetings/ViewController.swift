@@ -23,9 +23,9 @@ class ViewController: NSViewController {
     
     let eventStore = EKEventStore()
         
-    var allDayBool = false
-    var includeEmptyCategories = false
-    var terminator = true
+    var allDayBool = UserDefaults.standard.bool(forKey: "allDay")
+    var includeEmptyCategories = UserDefaults.standard.bool(forKey: "emptyCat")
+    var terminator = UserDefaults.standard.bool(forKey: "terminate")
     
     var total = 0.0
     var adjust = 0.0
@@ -36,7 +36,7 @@ class ViewController: NSViewController {
     var upcomingLength = 0.0
     var tomorrowLength = 0.0
     
-    var colorNum = 0
+//    var colorNum = 0
     
     var events = [EKEvent]()
     var allDay = [EKEvent]()
@@ -49,6 +49,9 @@ class ViewController: NSViewController {
     @IBOutlet weak var dayView: NSScrollView!
     
     override func viewDidLoad() {
+        let em = NSAppleEventManager.shared()
+        em.setEventHandler(self, andSelector: #selector(self.getUrl(_:withReplyEvent:)), forEventClass: AEEventClass(kInternetEventClass), andEventID: AEEventID(kAEGetURL))
+        
         super.viewDidLoad()
 //        forceRefresh()
         day.font = NSFont(name: "Helvetica Neue", size: CGFloat(23.0))!
@@ -59,7 +62,7 @@ class ViewController: NSViewController {
 
         eventStore.requestAccess(to: .event) { (granted, error) in
             print(granted)
-        }
+        }        
         
         updateDate()
         refresh()
@@ -78,6 +81,20 @@ class ViewController: NSViewController {
             }
             total += length
         }
+    }
+    
+    @objc func getUrl(_ event: NSAppleEventDescriptor, withReplyEvent replyEvent: NSAppleEventDescriptor) {
+        // Get the URL
+        let urlStr: String = event.paramDescriptor(forKeyword: keyDirectObject)!.stringValue!
+        let start = urlStr.index(urlStr.startIndex, offsetBy: 24)
+        let end = urlStr.index(urlStr.endIndex, offsetBy: 0)
+        let range = start..<end
+        let substring = String(urlStr[range])
+        if substring != "https://www.cavanagh.dev"{
+            NSWorkspace.shared.open(URL(string: substring)!)
+            NSApplication.shared.terminate(self)
+        }
+        print("down here")
     }
     
     @IBAction func refreshButtonPress(_ sender: Any) {
@@ -103,7 +120,7 @@ class ViewController: NSViewController {
         }
     }
     
-    func addCategories(title: String, array: [EKEvent], length: Double, total: Double, newLength: Double, doc: NSView) {
+    func addCategories(title: String, array: [EKEvent], length: Double, total: Double, newLength: Double, doc: NSView, colorCode: Int) {
         var index = 0.0
         let tempEvent = NSBox(frame: NSRect(x: atAbsoluteCenter, y: Int(total + adjust - length - newLength), width:455, height:Int(length) ))
         tempEvent.title = "\n" + title
@@ -130,18 +147,21 @@ class ViewController: NSViewController {
                 else {
                     button.title = "    " + event.title + "\n    " + DateFormatter.localizedString(from: event.startDate, dateStyle: .none, timeStyle: .short) + " - " + DateFormatter.localizedString(from: event.endDate, dateStyle: .none, timeStyle: .short) + "\n"
                 }
+                button.setButtonType(NSButton.ButtonType.momentaryChange)
+                button.bezelColor = .red
                 button.alignment = NSTextAlignment.left
                 button.font = NSFont(name: "Helvetica Neue", size: CGFloat(15.0))!
                 if event.hasNotes {
                     button.notes = event.notes!
                 }
-                button.colorCode = colorNum
-                if colorNum == 5 {
-                    colorNum = 0
-                }
-                else {
-                    colorNum += 1
-                }
+                button.colorCode = colorCode
+//                button.colorCode = colorNum
+//                if colorNum == 5 {
+//                    colorNum = 0
+//                }
+//                else {
+//                    colorNum += 1
+//                }
                 button.target = self
                 button.isBordered = false
                 button.action = #selector(buttonPress(_:))
@@ -314,11 +334,11 @@ class ViewController: NSViewController {
 
                 var newLength = 0.0
                 if pastLength > 0 {
-                    addCategories(title: "Past", array: past, length: pastLength, total: total - currentLength, newLength: newLength, doc: documentView)
+                    addCategories(title: "Past", array: past, length: pastLength, total: total - currentLength, newLength: newLength, doc: documentView, colorCode: 0)
                     newLength += pastLength
                 }
                 if allDayLength > 0 {
-                    addCategories(title: "All Day", array: allDay, length: allDayLength, total: total - currentLength, newLength: newLength, doc: documentView)
+                    addCategories(title: "All Day", array: allDay, length: allDayLength, total: total - currentLength, newLength: newLength, doc: documentView, colorCode: 1)
                     newLength += allDayLength
                 }
 //                addCategories(title: "Current", array: current, length: currentLength, total: total - currentLength, newLength: newLength, doc: documentView)
@@ -353,27 +373,27 @@ class ViewController: NSViewController {
             let documentView = NSView(frame: NSRect(x:0,y:100,width:460,height:Int(total + adjust)))
             var newLength = 0.0
             if pastLength > 0 {
-                addCategories(title: "Past", array: past, length: pastLength, total: total, newLength: newLength, doc: documentView)
+                addCategories(title: "Past", array: past, length: pastLength, total: total, newLength: newLength, doc: documentView, colorCode: 0)
                 newLength += pastLength
             }
             if allDayLength > 0 {
-                addCategories(title: "All Day", array: allDay, length: allDayLength, total: total, newLength: newLength, doc: documentView)
+                addCategories(title: "All Day", array: allDay, length: allDayLength, total: total, newLength: newLength, doc: documentView, colorCode: 1)
                 newLength += allDayLength
             }
             if currentLength > 0 {
-                addCategories(title: "Current", array: current, length: currentLength, total: total, newLength: newLength, doc: documentView)
+                addCategories(title: "Current", array: current, length: currentLength, total: total, newLength: newLength, doc: documentView, colorCode: 2)
                 newLength += currentLength
             }
             if nextLength > 0 {
-                addCategories(title: "Next Up", array: next, length: nextLength, total: total, newLength: newLength, doc: documentView)
+                addCategories(title: "Next Up", array: next, length: nextLength, total: total, newLength: newLength, doc: documentView, colorCode: 3)
                 newLength += nextLength
             }
             if upcomingLength > 0 {
-                addCategories(title: "Upcoming", array: upcoming, length: upcomingLength, total: total, newLength: newLength, doc: documentView)
+                addCategories(title: "Upcoming", array: upcoming, length: upcomingLength, total: total, newLength: newLength, doc: documentView, colorCode: 4)
                 newLength += upcomingLength
             }
             if tomorrowLength > 0 {
-                addCategories(title: "Tomorrow", array: tomorrow, length: tomorrowLength, total: total, newLength: newLength, doc: documentView)
+                addCategories(title: "Tomorrow", array: tomorrow, length: tomorrowLength, total: total, newLength: newLength, doc: documentView, colorCode: 5)
                 newLength += tomorrowLength
             }
             dayView.documentView = documentView
@@ -494,7 +514,6 @@ class RoundedColoredButton: NSButton {
     @IBInspectable var dark: NSColor = .red
     @IBInspectable var light: NSColor = .red
     @IBInspectable var mid: NSColor = .red
-    
     @IBInspectable var notes: String = ""
      
     override func draw(_ dirtyRect: NSRect) {
@@ -538,7 +557,7 @@ class RoundedColoredButton: NSButton {
             dark = NSColor.init(calibratedRed: 0.04, green: 0.25, blue: 0.40, alpha: 1.0)
         }
         
-        var gradient = NSGradient(colors: [
+        let gradient = NSGradient(colors: [
             light, mid, dark
         ])
         
@@ -564,3 +583,5 @@ extension Date {
         return Calendar.current.startOfDay(for: self)
     }
 }
+
+

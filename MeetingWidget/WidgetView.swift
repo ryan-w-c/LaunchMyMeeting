@@ -23,7 +23,9 @@ struct CalEventView: View {
         let fetch = fetchWidgetEvents()
         var temp = [CalendarEvent]()
         for event in fetch {
-            temp.append(CalendarEvent(event, eventType: findType(event: event), eventUrl: findURL(notes: event.notes!)))
+            if !event.isAllDay {
+                temp.append(CalendarEvent(event, eventType: findType(event: event), eventUrl: findURL(notes: event.notes ?? "www.cavanagh.dev")))
+            }
         }
         return temp
     }
@@ -49,7 +51,7 @@ struct CalEventView: View {
     }
     
     func returnTime() -> Date {
-        return calEvent[0].end
+        return calEvent[0].event.endDate
     }
     
     mutating func current() -> Bool {
@@ -95,7 +97,7 @@ struct CalEventView: View {
             return urls[0]
         }
         else {
-            return URL(string: "www.cavanagh.dev")!
+            return URL(string: "https://www.cavanagh.dev")!
         }
     }
 
@@ -111,12 +113,12 @@ struct CalEventView: View {
     var body: some View {
         VStack(alignment: .leading) {
             if calEvent.count == 0 {
-                Text("No events today.")
+                Text("No events today.").font(.title2)
             }
             else {
                 Text(calEvent[0].type).font(.title2).padding(.init(top: 20, leading: 0, bottom: 5, trailing: 0))
-                Text(calEvent[0].title).font(.title)
-                Text(DateFormatter.localizedString(from: calEvent[0].start, dateStyle: .none, timeStyle: .short) + " - " + DateFormatter.localizedString(from: calEvent[0].end, dateStyle: .none, timeStyle: .short)).font(.title3)
+                Text(calEvent[0].event.title).font(.title)
+                Text(DateFormatter.localizedString(from: calEvent[0].event.startDate, dateStyle: .none, timeStyle: .short) + " - " + DateFormatter.localizedString(from: calEvent[0].event.endDate, dateStyle: .none, timeStyle: .short)).font(.title3)
                 Spacer()
             }
         }

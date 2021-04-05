@@ -12,13 +12,9 @@ import EventKit
 var widgetInstance = CalEventView()
 
 struct Provider: TimelineProvider {
-    func updateWidget() {
-        widgetInstance = CalEventView()
-    }
     
     func placeholder(in context: Context) -> SimpleEntry {
-        updateWidget()
-        return SimpleEntry(date: Date())
+        SimpleEntry(date: Date())
     }
 
     func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
@@ -51,6 +47,7 @@ struct SimpleEntry: TimelineEntry {
 
 struct MeetingWidgetEntryView : View {
     var entry: Provider.Entry
+    
     var body: some View {
         widgetInstance
     }
