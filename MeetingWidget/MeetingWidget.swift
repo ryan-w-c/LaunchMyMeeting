@@ -14,24 +14,25 @@ var widgetInstance = CalEventView()
 struct Provider: TimelineProvider {
     
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date())
+        SimpleEntry(date: Date(), event: CalendarEvent(EKEvent(), eventType: "Loading", eventUrl: URL(string: "www.cavanagh.dev")!))
     }
 
     func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: Date())
+        let entry = SimpleEntry(date: Date(), event: CalendarEvent(EKEvent(), eventType: "Loading", eventUrl: URL(string: "www.cavanagh.dev")!))
         completion(entry)
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
         var entries: [SimpleEntry] = []
         
-//        let events = WidgetFunctions().fetchWidgetEvents()
-//        let refreshTime = WidgetFunctions().widgetTime(events: events)
         // Generate a timeline consisting of five entries an hour apart, starting from the current date.
+        widgetInstance = CalEventView()
         let currentDate = Date()
-        for min in [0,1,2,3,4,5] {
-            let entryDate = Calendar.current.date(byAdding: .minute, value: min, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate)
+        let timeLine = widgetInstance.getTimeline()
+        let events = widgetInstance.getEvents()
+        for i in 0 ..< (timeLine.count) {
+            let entryDate = Calendar.current.date(byAdding: .second, value: timeLine[i], to: currentDate)!
+            let entry = SimpleEntry(date: entryDate, event: events[i])
             entries.append(entry)
         }
         
@@ -42,14 +43,14 @@ struct Provider: TimelineProvider {
 
 struct SimpleEntry: TimelineEntry {
     let date: Date
-//    let calEvent: [CalendarEvent] = WidgetFunctions().createCalendarEvents()
+    let event: CalendarEvent
 }
 
 struct MeetingWidgetEntryView : View {
     var entry: Provider.Entry
     
     var body: some View {
-        widgetInstance
+        theWidgetView(event: entry.event)
     }
 }
 
@@ -59,12 +60,13 @@ struct MeetingWidget: Widget {
 
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: "UpNext", provider: Provider()) { entry in
-            MeetingWidgetEntryView(entry: entry).frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(LinearGradient(gradient: Gradient(colors: [Color(red: 0.4588, green: 0.0980, blue: 0.0980), Color(red: 0.7137, green: 0.0039, blue: 0.0039)]), startPoint: .leading, endPoint: .trailing))
-                .widgetURL(URL(string: "launch-meeting://widget/\( widgetInstance.returnUrl())"))
+            MeetingWidgetEntryView(entry: entry)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(widgetInstance.returnColor(event: entry.event))
+                .widgetURL(URL(string: "launch-meeting://widget/\(widgetInstance.returnUrl())"))
         }
         .configurationDisplayName("Up Next")
-        .description("This shows your newest event.")
+        .description("Quick Launch your Event.")
         
     }
 }
@@ -72,8 +74,13 @@ struct MeetingWidget: Widget {
 struct MeetingWidget_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            CalEventView()
+            theWidgetView(event: widgetInstance.getEvents()[0])
                 .previewContext(WidgetPreviewContext(family: .systemSmall))
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(widgetInstance.returnColor(event: CalendarEvent(EKEvent(), eventType: "Next", eventUrl: URL(string: "www.google.com")!)))
+            //                .widgetURL(URL(string: "www.google.com"))
+//            CalEventView()
+//                .previewContext(WidgetPreviewContext(family: .systemSmall))
 //                .widgetURL(URL(string: "www.google.com"))
         }
         

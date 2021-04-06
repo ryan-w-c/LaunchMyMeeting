@@ -16,10 +16,6 @@ class PreferencesViewController: NSViewController {
         allDay.state = NSControl.StateValue.init(boolToInt(change: UserDefaults.standard.bool(forKey: "allDay")))
         terminate.state = NSControl.StateValue.init(boolToInt(change: UserDefaults.standard.bool(forKey: "terminate")))
         emptyCat.state = NSControl.StateValue.init(boolToInt(change: UserDefaults.standard.bool(forKey: "emptyCat")))
-//        allDay.state.rawValue = UserDefaults.standard.bool(forKey: "allDay")
-//        emptyCat.state.rawValue = UserDefaults.standard.bool(forKey: "emptyCat")
-//        var terminator = UserDefaults.standard.bool(forKey: "terminate")
-        
     }
     
     func boolToInt(change: Bool) -> Int {
@@ -57,11 +53,3 @@ class PreferencesViewController: NSViewController {
     }
     
 }
-
-//class PreferencesWindowController: NSWindowController, NSWindowDelegate {
-//    
-//    func windowShouldClose(_ sender: NSWindow) -> Bool {
-//        UserDefaults.standard.synchronize()
-//        return true
-//    }
-//}

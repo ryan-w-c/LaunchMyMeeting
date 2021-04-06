@@ -9,70 +9,128 @@ import SwiftUI
 import WidgetKit
 import EventKit
 
-struct CalEventView: View {
+struct CalEventView {
     private var calEvent: [CalendarEvent]!
     let eventStore = EKEventStore()
-    var nextInitialized = false
-    var nextTime: Date = Date()
+    private var timeLine = [0]
 
     init() {
         self.calEvent = self.createCalendarEvents()
     }
     
+    func getEvents() -> [CalendarEvent] {
+        return calEvent
+    }
+    
     mutating func createCalendarEvents() -> [CalendarEvent] {
         let fetch = fetchWidgetEvents()
         var temp = [CalendarEvent]()
+        let currentDate = Date()
+        var timeDiffStart = 0
+        var timeDiffEnd = 0
+        var currType = ""
+        var previous = 0
+        
         for event in fetch {
-            if !event.isAllDay {
-                temp.append(CalendarEvent(event, eventType: findType(event: event), eventUrl: findURL(notes: event.notes ?? "www.cavanagh.dev")))
+            if event.isAllDay {
+                continue
+            }
+            currType = findType(event: event)
+            if currType != "Current" {
+                timeDiffStart = findSecDiff(currTime: currentDate, endTime: event.startDate)
+            }
+            timeDiffEnd = findSecDiff(currTime: currentDate, endTime: event.endDate)
+            if fetch.isEmpty {
+                if currType == "Current" {
+                    if timeDiffEnd > 300 {
+                        timeLine.append(timeDiffEnd - 300)
+                        temp.append(CalendarEvent(event, eventType: currType, eventUrl: findURL(notes: event.notes ?? "www.cavanagh.dev")))
+                        previous = timeDiffEnd - 300
+                    }
+                }
+                else {
+                    if timeDiffEnd - timeDiffStart > 600 {
+                        timeLine.append(timeDiffStart)
+                        timeLine.append(timeDiffEnd - 300)
+                        temp.append(CalendarEvent(event, eventType: currType, eventUrl: findURL(notes: event.notes ?? "www.cavanagh.dev")))
+                        temp.append(CalendarEvent(event, eventType: "Current", eventUrl: findURL(notes: event.notes ?? "www.cavanagh.dev")))
+                        previous = timeDiffEnd - 300
+                    }
+                }
+            }
+            else {
+                if currType == "Current" {
+                    if timeDiffEnd - 600 > previous {
+                        timeLine.append(timeDiffEnd - 300)
+                        temp.append(CalendarEvent(event, eventType: currType, eventUrl: findURL(notes: event.notes ?? "www.cavanagh.dev")))
+                        previous = timeDiffEnd - 300
+                    }
+                }
+                else {
+                    //meeting start after the previous
+                    if (timeDiffStart > previous) {
+                        //meeting is at least 10 minutes
+                        if timeDiffEnd - timeDiffStart > 600 {
+                            timeLine.append(timeDiffStart)
+                            temp.append(CalendarEvent(event, eventType: currType, eventUrl: findURL(notes: event.notes ?? "www.cavanagh.dev")))
+                            temp.append(CalendarEvent(event, eventType: "Current", eventUrl: findURL(notes: event.notes ?? "www.cavanagh.dev")))
+                            timeLine.append(timeDiffEnd - 300)
+                            previous = timeDiffEnd - 300
+                        }
+                    }
+                    //meeting starts during previous
+                    else {
+                        //meeting finishes with at least 10 minutes not overlapped with previous
+                        if timeDiffEnd - 600 > previous {
+                            timeLine.append(timeDiffEnd - 300)
+                            temp.append(CalendarEvent(event, eventType: "Current", eventUrl: findURL(notes: event.notes ?? "www.cavanagh.dev")))
+                            previous = timeDiffEnd - 300
+                        }
+                    }
+                }
             }
         }
+        let lastTime = findSecDiff(currTime: currentDate, endTime: currentDate.startOfNextDay)
+        if previous < lastTime {
+            timeLine.append(lastTime + 60)
+        }
+        temp.append(CalendarEvent(eventType: "No events today.", eventUrl: URL(string: "www.cavanagh.dev")!))
+        temp.append(CalendarEvent(eventType: "No events today.", eventUrl: URL(string: "www.cavanagh.dev")!))
+
         return temp
     }
     
     mutating func findType(event: EKEvent) -> String {
-        if event.startDate < Date() && event.endDate < Date() {
-            return "Past"
-        }
-        else if event.startDate < Date() && event.endDate > Date() {
+        if event.startDate < Date() && event.endDate > Date() {
             return "Current"
         }
-        else if !nextInitialized {
-            nextInitialized = true
-            nextTime = event.startDate
+        else {
             return "Next"
         }
-        else if nextInitialized && event.startDate == nextTime {
-            return "Next"
+    }
+    
+    func returnColor(event: CalendarEvent) -> LinearGradient {
+        if calEvent.isEmpty {
+            return LinearGradient(gradient: Gradient(colors: [Color(red: 0.4588, green: 0.0980, blue: 0.0980), Color(red: 0.7137, green: 0.0039, blue: 0.0039)]), startPoint: .leading, endPoint: .trailing)
+        }
+        else if event.type == "Current"{
+            return LinearGradient(gradient: Gradient(colors: [Color(red: 0.4588, green: 0.0980, blue: 0.0980), Color(red: 0.7137, green: 0.0039, blue: 0.0039)]), startPoint: .leading, endPoint: .trailing)
         }
         else {
-            return "Upcoming"
-        }
-    }
-    
-    func returnTime() -> Date {
-        return calEvent[0].event.endDate
-    }
-    
-    mutating func current() -> Bool {
-        var currType = findType(event: calEvent[0].event)
-        if currType == "Past" {
-            return false
-        }
-        else {
-            calEvent[0].type = findType(event: calEvent[0].event)
-            return true
-        }
-    }
-    
-    mutating func removeCurrent() {
-        while !current() {
-            calEvent.remove(at: 0)
+            return LinearGradient(gradient: Gradient(colors: [Color(red: 0.0, green: 0.2078, blue: 0.5804), Color(red: 0.3804, green: 0.6431, blue: 1.0)]), startPoint: .leading, endPoint: .trailing)
         }
     }
     
     func returnUrl() -> URL {
+        if calEvent.isEmpty {
+            return URL(string: "https://www.cavanagh.dev")!
+        }
         return calEvent[0].url
+    }
+    
+    func getTimeline() -> [Int] {
+        print(timeLine)
+        return timeLine
     }
     
     func checkForUrls(text: String) -> [URL] {
@@ -106,31 +164,33 @@ struct CalEventView: View {
         return eventStore.events(matching: predicate)
     }
 
-    func findSecDiff(endTime: Date) -> Int {
-        return Calendar.current.dateComponents([.second], from: Date(), to: endTime).second!
+    func findSecDiff(currTime: Date, endTime: Date) -> Int {
+        return Calendar.current.dateComponents([.second], from: currTime, to: endTime).second!
     }
 
-    var body: some View {
-        VStack(alignment: .leading) {
-            if calEvent.count == 0 {
-                Text("No events today.").font(.title2)
-            }
-            else {
-                Text(calEvent[0].type).font(.title2).padding(.init(top: 20, leading: 0, bottom: 5, trailing: 0))
-                Text(calEvent[0].event.title).font(.title)
-                Text(DateFormatter.localizedString(from: calEvent[0].event.startDate, dateStyle: .none, timeStyle: .short) + " - " + DateFormatter.localizedString(from: calEvent[0].event.endDate, dateStyle: .none, timeStyle: .short)).font(.title3)
-                Spacer()
-            }
-        }
-    }
 }
 
-
-struct WidgetView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            CalEventView()
-                .previewLayout(.fixed(width: 160, height: 160))
+struct theWidgetView: View {
+    private var event: EKEvent? = nil
+    private var type: String
+    
+    
+    init(event: CalendarEvent) {
+        self.event = event.event
+        self.type = event.type
+    }
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            if event == nil {
+                Text(type).font(.title2)
+            }
+            else {
+                Text(type).font(.title2).padding(.init(top: 20, leading: 0, bottom: 5, trailing: 0))
+                Text(event!.title).font(.title)
+                Text(DateFormatter.localizedString(from: event!.startDate, dateStyle: .none, timeStyle: .short) + " - " + DateFormatter.localizedString(from: event!.endDate, dateStyle: .none, timeStyle: .short)).font(.title3)
+                Spacer()
+            }
         }
     }
 }
